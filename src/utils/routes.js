@@ -68,6 +68,7 @@ require("../api/product_review/routes/product_review")(app)
 require("../api/marquee/routes/marquee")(app)
 require("../api/free_plan/routes/store_free_plan")(app)
 require("../api/coupon/routes/coupon")(app)
+require("../api/blog/routes/blog")(app)
 // const fs = require("fs");
 // const path = require("path");
 

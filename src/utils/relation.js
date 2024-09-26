@@ -54,6 +54,7 @@ const product_review = require("../api/product_review/models/product_review");
 const marquee = require("../api/marquee/models/marquee");
 const free_plan = require("../api/free_plan/models/free_plan");
 const coupon = require("../api/coupon/models/coupon");
+const blog = require("../api/blog/models/blog");
 
 module.exports = async (sequelize) => {
   const db = {};
@@ -113,6 +114,8 @@ module.exports = async (sequelize) => {
   db.Marquee = marquee(sequelize)
   db.Free_plan = free_plan(sequelize)
   db.Coupon = coupon(sequelize);
+  db.Blog = blog(sequelize);
+
   // #################### Product , Variant , Tag , Bulk Pricing and Collection and Collection_static Association #################
   db.Product.hasMany(db.Variant, { foreignKey: "ProductId", as: "variants" });
   db.Variant.belongsTo(db.Product, { foreignKey: "ProductId", as: "product" });
@@ -274,6 +277,8 @@ module.exports = async (sequelize) => {
 
   db.Product.hasMany(db.Coupon, { foreignKey: "ProductId", as: "coupons" })
   db.Collection.belongsTo(db.Product, { foreignKey: "ProductId", as: "product" })
+
+  db.Blog.belongsTo(db.Media, { foreignKey: "ThumbnailId", as: "thumbnail" })
 
   // db.Coupon.belongsToMany(db.Product, {
   //   foreignKey: "CouponId",

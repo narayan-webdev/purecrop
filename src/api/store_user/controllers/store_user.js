@@ -22,6 +22,8 @@ const { default: axios } = require("axios");
 const { config } = require("dotenv");
 const crypto = require("crypto");
 const msg91 = require("../../../services/msg91");
+const { generateOrderId } = require("../../order/services/orderId");
+
 
 config()
 exports.create = async (req, res) => {
@@ -42,13 +44,20 @@ exports.create = async (req, res) => {
 
     const consumer_role = await sequelize.models.Role.findOne({ where: { name: "Consumer" }, raw: true });
     const hasPass = await hash(password);
+    let moreData = {}
+    if (body?.user_type === "AFFILIATE") {
+      moreData.affiliate_code = generateOrderId(name);
+      moreData.user_type = "AFFILIATE";
+    }
+
     const Store_user = await sequelize.models.Store_user.create({
       name,
       email,
       phone: trimedPhone,
       password: hasPass,
       RoleId: consumer_role.id,
-      AvatarId: body.AvatarId
+      AvatarId: body.AvatarId,
+      ...moreData
     });
 
     const htmlContent = fs.readFileSync("./views/accountCreated.ejs", "utf8");

@@ -236,7 +236,7 @@ module.exports = async (sequelize) => {
   // ############### ShipRocket Associations ###########
   db.Ship_rocket_order.hasMany(db.Ship_rocket_orderitem, { foreignKey: "ShipRocketOrderId", as: "orderItems" });
   db.Ship_rocket_orderitem.belongsTo(db.Ship_rocket_order, { foreignKey: "ShipRocketOrderId", as: "shipRocketOrder" });
-  db.Order_variant.belongsTo(db.Ship_rocket_orderitem, { foreignKey: "ShipRocketOrderItemId", as: "shipRocketOrderItem" });
+  db.Order_variant.hasOne(db.Ship_rocket_orderitem, { foreignKey: "OrderVariantId", as: "shipRocketOrderItem" });
   db.Ship_rocket_orderitem.belongsTo(db.Order_variant, { foreignKey: "OrderVariantId", as: "orderVariant" });
   db.Ship_rocket_orderitem.belongsTo(db.Ship_rocket_return, { foreignKey: "ShipRocketReturnId", as: "shipRocketReturn" });
   db.Ship_rocket_return.hasMany(db.Ship_rocket_orderitem);

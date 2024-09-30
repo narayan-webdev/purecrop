@@ -51,18 +51,20 @@ module.exports = {
       CollectionId: Joi.number().optional(),
       CollectionStaticId: Joi.number().optional(),
       yt_video_link: Joi.string().optional(),
-      "is_active": Joi.boolean().optional(),
-      "cod_enabled": Joi.boolean().optional(),
-      "product_return": Joi.boolean().optional(),
-      "enquiry_enabled": Joi.boolean().optional(),
-      "show_price": Joi.boolean().optional(),
+      is_active: Joi.boolean().optional(),
+      cod_enabled: Joi.boolean().optional(),
+      product_return: Joi.boolean().optional(),
+      enquiry_enabled: Joi.boolean().optional(),
+      show_price: Joi.boolean().optional(),
       reviews: Joi.array().items(Joi.object({
         name: Joi.string().required(),
         title: Joi.string().optional().allow(null),
         AvatarId: Joi.number().optional().allow(null, ""),
         rating: Joi.number().optional().max(5),
         review: Joi.string().optional().required(),
-      })).optional()
+      })).optional(),
+      comission_value: Joi.number().optional(),
+      discount_value: Joi.number().optional(),
     });
 
     let result = JoiSchema.validate(body);
@@ -87,11 +89,13 @@ module.exports = {
       CollectionStaticId: Joi.number().optional(),
       rating: Joi.number().positive().optional().max(5),
       yt_video_link: Joi.string().optional().allow(""),
-      "is_active": Joi.boolean().optional(),
-      "cod_enabled": Joi.boolean().optional(),
-      "product_return": Joi.boolean().optional(),
-      "enquiry_enabled": Joi.boolean().optional(),
-      "show_price": Joi.boolean().optional(),
+      is_active: Joi.boolean().optional(),
+      cod_enabled: Joi.boolean().optional(),
+      product_return: Joi.boolean().optional(),
+      enquiry_enabled: Joi.boolean().optional(),
+      show_price: Joi.boolean().optional(),
+      comission_value: Joi.number().optional(),
+      discount_value: Joi.number().optional(),
     });
 
     let result = JoiSchema.validate(req.body);

@@ -54,6 +54,13 @@ module.exports = (sequelize) => {
     otp_expiration: {
       type: DataTypes.DATE,
       allowNull: true
+    },
+    user_type: {
+      type: DataTypes.ENUM("USER", "AFFILIATE"),
+      defaultValue: "USER"
+    },
+    affiliate_code:{
+      type:DataTypes.STRING
     }
   });
 

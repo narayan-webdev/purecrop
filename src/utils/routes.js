@@ -93,6 +93,6 @@ require("../api/blog/routes/blog")(app)
 //             routes.push(module)
 //         }
 //     }
-//     // //console.log(routes)
+//   //console.log(routes)
 // }
 // registerRoutes()

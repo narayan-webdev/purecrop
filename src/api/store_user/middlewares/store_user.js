@@ -41,6 +41,7 @@ module.exports = {
       phone: Joi.string().regex(/^\+91\s?[0-9]{10}$/).required(),
       RoleId: Joi.number().positive().optional(),
       AvatarId: Joi.number().positive().optional().allow(null),
+      user_type: Joi.string().valid("USER", "AFFILIATE").optional(),
     });
 
     const { error } = schema.validate(req.body);

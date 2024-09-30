@@ -54,7 +54,15 @@ module.exports = (sequelize) => {
     rating: {
       type: DataTypes.FLOAT,
       defaultValue: 0
-    }
+    },
+    comission_value: {
+      type: DataTypes.DECIMAL,
+      defaultValue: 0
+    },
+    discount_value: {
+      type: DataTypes.DECIMAL,
+      defaultValue: 0
+    },
   });
 
   return Product;

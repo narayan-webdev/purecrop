@@ -41,6 +41,9 @@ module.exports = (sequelize) => {
     note: {
       type: DataTypes.TEXT,
     },
+    referal_code: {
+      type: DataTypes.STRING
+    }
   });
 
   return Order_variant;

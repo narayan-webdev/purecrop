@@ -519,6 +519,8 @@ exports.verify = async (req, res) => {
       }
     );
 
+
+
     const [rowsCunt, orderVariant] = await sequelize.models.Order_variant.update(
       { status: order_status.NEW },
       {
@@ -537,6 +539,13 @@ exports.verify = async (req, res) => {
           transaction: t,
         }
       );
+    }
+    const affiliateUser = await sequelize.models.Store_user.findOne({ where: { affiliate_code: ov.referal_code } })
+    if (affiliateUser) {
+      const variant = await sequelize.models.Variant.findByPk(ov.VariantId, { include: ["product"] })
+      const commission_value = variant.product.comission_value
+      const cAmount = (ov.price * commission_value) / 100
+      await affiliateUser.increment({ wallet_balance: cAmount })
     }
 
     // const htmlContent = fs.readFileSync("./views/orderTemplate.ejs", "utf8");

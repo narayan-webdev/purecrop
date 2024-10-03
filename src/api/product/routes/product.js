@@ -100,6 +100,7 @@ const permissions = [
 module.exports = (app) => {
   router.post("/products", [Joi.validateCreateBody], productController.create);
   router.post("/products/selected", productController.findByIds);
+  router.post("/products/selected", productController.findByIds);
   router.get("/products", productController.find);
   router.put("/products/:id/collection/:cId", productController.removeCollection);
   router.get("/products/simple-data", productController.simpleData);

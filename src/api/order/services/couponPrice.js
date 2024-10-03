@@ -25,12 +25,12 @@ module.exports = async (sequelize, variantsPrice, variants) => {
                 //     coupon.discount_value
                 // );
                 const variant = await sequelize.models.Variant.findByPk(item.VariantId, { include: ["product"] })
-                const commission_value = variant.product.comission_value
+                // const commission_value = variant.product.comission_value
                 const discount_value = variant.product.discount_value
                 const discountedPrice = variantsPrice[item.VariantId] - (variantsPrice[item.VariantId] * discount_value) / 100
-                const cAmount = (variantsPrice[item.VariantId] * commission_value) / 100
+                // const cAmount = (variantsPrice[item.VariantId] * commission_value) / 100
 
-                affiliateUser.increment({ wallet_balance: cAmount })
+                //  affiliateUser.increment({ wallet_balance: cAmount })
                 variantsPrice[item.VariantId] = discountedPrice;
                 totalAmount = totalAmount + discountedPrice;
             }

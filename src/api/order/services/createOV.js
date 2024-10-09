@@ -4,7 +4,7 @@ const { tokenError, errorResponse } = require("../../../services/errorResponse")
 const dbCache = require("../../../utils/dbCache");
 const dbConnection = require("../../../utils/dbConnection");
 
-exports.createOrderVaraint = async ({ razorpayOrder, StoreUserId, body, sequelize, transaction, variantsPrice,totalAmount }) => {
+exports.createOrderVaraint = async ({ razorpayOrder, StoreUserId, body, sequelize, transaction, variantsPrice, totalAmount }) => {
   try {
     const order = await sequelize.models.Order.create(
       {
@@ -36,6 +36,7 @@ exports.createOrderVaraint = async ({ razorpayOrder, StoreUserId, body, sequeliz
       if (body.consumer.isResellerOrder) {
         obj["selling_price"] = it.sellingPrice
       }
+      obj["referal_code"] = it.coupon_code;
       order_variants_body.push(obj);
     }
 

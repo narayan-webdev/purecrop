@@ -540,12 +540,14 @@ exports.verify = async (req, res) => {
         }
       );
       const affiliateUser = await sequelize.models.Store_user.findOne({ where: { affiliate_code: ov.referal_code } })
-      console.log("user found", affiliateUser)
+
       if (affiliateUser) {
         const variant = await sequelize.models.Variant.findByPk(ov.VariantId, { include: ["product"] })
         const commission_value = variant.product.comission_value
         const cAmount = (ov.price * commission_value) / 100
         await sequelize.models.Store_user.increment({ wallet_balance: cAmount }, { where: { id: affiliateUser.id }, transaction: t })
+        await sequelize.models.Order_variant.update({ referal_amount: cAmount }, { where: { id: ov.id }, transaction: t })
+
       }
     }
 

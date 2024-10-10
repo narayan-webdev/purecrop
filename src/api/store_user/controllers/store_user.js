@@ -23,6 +23,8 @@ const { config } = require("dotenv");
 const crypto = require("crypto");
 const msg91 = require("../../../services/msg91");
 const { generateOrderId } = require("../../order/services/orderId");
+const user = require("../../user/models/user");
+const { group } = require("console");
 
 
 config()
@@ -55,7 +57,7 @@ exports.create = async (req, res) => {
       email,
       phone: trimedPhone,
       password: hasPass,
-      RoleId: consumer_role.id,
+      RoleId: consumer_role?.id ?? null,
       AvatarId: body.AvatarId,
       ...moreData
     });
@@ -294,7 +296,35 @@ exports.getMe = async (req, res) => {
       findUser.isPremium = false
       await findUser.save()
     }
-    return res.status(200).send({ data: { ...findUser.dataValues, subscription: (subscriptions.length ? subscriptions[0] : "no active subscriptions") } });
+
+    const userData = { ...findUser.dataValues }
+
+    if (findUser.user_type === "AFFILIATE") {
+      const totalAffiliateOrderVariants = await sequelize.models.Order_variant.count({
+        include: [{
+          model: sequelize.models.Order,
+          as: "order",
+          where: { is_paid: true },
+          required: true
+        }],
+        where: { referal_code: findUser.affiliate_code }
+      });
+
+      const totalAffiliateRevenue = await sequelize.models.Order_variant.sum("referal_amount", {
+        include: [{
+          model: sequelize.models.Order,
+          as: "order",
+          where: { is_paid: true },
+          required: true
+        }],
+        where: { referal_code: findUser.affiliate_code },
+        group:["order.id"]
+      });
+      userData.totalAffiliateOrders = totalAffiliateOrderVariants
+      userData.totalAffiliateRevenue = totalAffiliateRevenue
+    }
+
+    return res.status(200).send({ data: { ...userData, subscription: (subscriptions.length ? subscriptions[0] : false) } });
   } catch (error) {
     console.log(error);
     return res.status(500).send(errorResponse({ status: 500, message: "Internal server Error" }));

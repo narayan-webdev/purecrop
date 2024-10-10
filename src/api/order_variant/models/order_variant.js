@@ -1,3 +1,4 @@
+const { ref } = require("joi");
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
@@ -43,6 +44,10 @@ module.exports = (sequelize) => {
     },
     referal_code: {
       type: DataTypes.STRING
+    },
+    referal_amount: {
+      type: DataTypes.DECIMAL,
+      defaultValue: 0
     }
   });
 

@@ -116,7 +116,8 @@ exports.find = async (req, res) => {
     const StoreUser = await sequelize.models.Store_user.findAndCountAll({
       offset: pagination.offset,
       limit: pagination.limit,
-      include: ['avatar']
+      include: ['avatar'],
+      where: { user_type: query.type ?? "USER" },
     });
 
     const meta = await getMeta(pagination, StoreUser.count);

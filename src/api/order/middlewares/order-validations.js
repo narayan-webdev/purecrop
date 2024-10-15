@@ -34,7 +34,7 @@ module.exports = {
           VariantId: Joi.number().required(),
           quantity: Joi.number().required(),
           sellingPrice: Joi.number().optional().allow(null, ""),
-          coupon_code: Joi.string().optional()
+          coupon_code: Joi.string().optional().allow(null, ""),
         })).required(),
         AddressId: Joi.number().required(),
         StoreUserID: Joi.number().optional(),

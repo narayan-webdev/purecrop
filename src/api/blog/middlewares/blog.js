@@ -20,7 +20,8 @@ module.exports = {
         description: Joi.string().required(),
         content: Joi.string().required(),
         ThumbnailId: Joi.number().optional(),
-        tags: Joi.array().items(Joi.string()).optional()
+        tags: Joi.array().items(Joi.string()).optional(),
+        gallery: Joi.array().items(Joi.number()).optional(),
       });
       return JoiSchema.validate(body);
     }
@@ -47,6 +48,7 @@ module.exports = {
         slug: Joi.string().required(),
         ThumbnailId: Joi.number().optional(),
         tags: Joi.array().items(Joi.string()).optional(),
+        gallery: Joi.array().items(Joi.number()).optional(),
       });
       return JoiSchema.validate(body);
     }

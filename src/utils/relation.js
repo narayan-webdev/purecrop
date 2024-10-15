@@ -280,6 +280,9 @@ module.exports = async (sequelize) => {
 
   db.Blog.belongsTo(db.Media, { foreignKey: "ThumbnailId", as: "thumbnail" })
 
+  db.Blog.belongsToMany(db.Media, { foreignKey: "BlogId", through: "Blog_gallery", as: "gallery" });
+  db.Media.belongsToMany(db.Blog, { foreignKey: "MediaId", through: "Blog_gallery" });
+
   // db.Coupon.belongsToMany(db.Product, {
   //   foreignKey: "CouponId",
   //   through: "CouponProduct",

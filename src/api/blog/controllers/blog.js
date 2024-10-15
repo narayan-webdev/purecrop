@@ -30,7 +30,10 @@ exports.find = async (req, res) => {
     const blogs = await sequelize.models.Blog.findAndCountAll({
       limit: pagination.limit,
       offset: pagination.offset,
-      include: [{ model: sequelize.models.Media, as: "thumbnail", attributes: ["id", "url"] }],
+      include: [
+        { model: sequelize.models.Media, as: "thumbnail", attributes: ["id", "url"] },
+
+      ],
     });
 
     const meta = await getMeta(pagination, blogs.count)
@@ -49,7 +52,8 @@ exports.findOne = async (req, res) => {
       include: [
         {
           model: sequelize.models.Media, as: "thumbnail", attributes: ["id", "url"]
-        }
+        },
+        { model: sequelize.models.Media, as: "gallery", attributes: ["id", "url"] },
       ],
     });
     if (!blog) {
@@ -135,6 +139,14 @@ exports.searchBlog = async (req, res) => {
           { tags: { [Op.contains]: [qs] } },            // Search in 'tags' array
         ],
       },
+      include: [
+        {
+          model: sequelize.models.Media, as: "thumbnail", attributes: ["id", "url"]
+        },
+        {
+          model: sequelize.models.Media, as: "gallery", attributes: ["id", "url"]
+        }
+      ],
       offset: pagination.offset,
       limit: pagination.limit,
     });

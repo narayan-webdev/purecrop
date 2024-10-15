@@ -14,7 +14,8 @@ function calculateDiscountedPrice(price, discountType, discountValue) {
 module.exports = async (sequelize, variantsPrice, variants) => {
     let totalAmount = 0;
     for (const item of variants) {
-        if (item.coupon_code) {
+        console.log(item)
+        if (item.coupon_code && item.coupon_code != "") {
             const affiliateUser = await sequelize.models.Store_user.findOne({ where: { affiliate_code: item.coupon_code } })
             // const coupon = await sequelize.models.Coupon.findOne({ where: { coupon_code: item.coupon_code } })
             if (affiliateUser) {
@@ -29,7 +30,7 @@ module.exports = async (sequelize, variantsPrice, variants) => {
                 const discount_value = variant.product.discount_value
                 const discountedPrice = variantsPrice[item.VariantId] - (variantsPrice[item.VariantId] * discount_value) / 100
                 // const cAmount = (variantsPrice[item.VariantId] * commission_value) / 100
-
+                console.log(discountedPrice, "dd")
                 //  affiliateUser.increment({ wallet_balance: cAmount })
                 variantsPrice[item.VariantId] = discountedPrice;
                 totalAmount = totalAmount + discountedPrice;
